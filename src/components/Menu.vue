@@ -1,18 +1,18 @@
 <template>
   <section class="menu">
       <div class="head-logo">
-          <h2 class="header-logo__content">Logo</h2>
+          <h2><router-link to="/dashboard" class="header-logo__content">Logo</router-link></h2>
       </div>
       <div class="menu__container">
           <ul class="menu__container-list">
               <li class="menu__container-element">
-                  <a href="#"><i class="fa fa-plus"></i> New</a>
+                  <router-link to="/dashboard/new"><i class="fa fa-plus"></i> New</router-link>
               </li>
               <li class="menu__container-element">
-                  <a href="#"><i class="fa fa-ticket"></i> My tickets</a>
+                  <router-link to="#"><i class="fa fa-ticket"></i> My Tickets</router-link>
               </li>
               <li class="menu__container-element">
-                  <a href="#"><i class="fa fa-bar-chart"></i> Graphics</a>
+                  <router-link to="/new"><i class="fa fa-bar-chart"></i> Graphics</router-link>
               </li>
           </ul>
       </div>
@@ -34,6 +34,7 @@ export default {
 
     .header-logo__content {
         color: var(--white);
+        text-decoration: none;
     }
 
     .menu {
@@ -42,6 +43,7 @@ export default {
         width: 250px;
         background-color: var(--primary);
         border-radius: var(--border_radius);
+        z-index: 10;
     }
 
     .menu__container {
@@ -72,6 +74,7 @@ export default {
     }
 
     .menu__container-element a {
+        width: 100%;
         text-decoration: none;
         color: var(--white);
         padding: 10px;

@@ -1,23 +1,12 @@
 <template>
   <div id="app">
-    <Head></Head>
-    <Menu></Menu>
-    <FormData></FormData>
+    <router-view/>
   </div>
 </template>
-
 <script>
-import Menu from './components/Menu'
-import Head from './components/Head'
-import FormData from './components/FormData';
-
 
 export default {
-  name: 'App',
   components: {
-    Menu,
-    Head,
-    FormData
   }
 }
 </script>
@@ -33,11 +22,62 @@ export default {
     --font_sd: 10px;
     --shadow_bottom: 0px 0px 3px rgba(0,0,0,0.4)
   }
-
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Helvetica, sans-serif;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .col-1 {
+    width: 8.33%;
+  }
+
+  .col-2 {
+    width: 16.66%;
+  }
+
+  .col-3 {
+    width: 24.99%;
+  }
+
+  .col-4 {
+    width: 33.33%;
+  }
+
+  .col-5 {
+    width: 41.65%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .col-7 {
+    width: 58.41%;
+  }
+
+  .col-8 {
+    width: 66.66%;
+  }
+
+  .col-9 {
+    width: 74.97%;
+  }
+
+  .col-10 {
+    width: 83.33%;
+  }
+
+  .col-11 {
+    width: 91.63%;
+  }
+
+  .col-12 {
+    width: 100%;
   }
 </style>

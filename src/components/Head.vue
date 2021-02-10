@@ -22,6 +22,7 @@ export default {
         display: inline-block;
         width: calc(100% - 250px);
         left: 250px;
+        z-index: 10;
     }
 
     .header__content {
