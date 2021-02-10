@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <form>
+    <form ref="formCreate">
       <div class="form-row">
         <label class="form-label" for="lob">Reported by</label>
         <div class="col-9">
@@ -188,7 +188,7 @@
       <button class="form-button"><i class="fa fa-plus-circle"></i> New</button>
       <button class="form-button"><i class="fa fa-copy"></i> Copy</button>
       <button class="form-button"><i class="fa fa-eraser"></i> Reset</button>
-      <button class="form-button"><i class="fa fa-save"></i> Save</button>
+      <button class="form-button" @click="create"><i class="fa fa-save"></i> Save</button>
     </div>
   </div>
 </template>
@@ -207,15 +207,38 @@ export default {
         issue: '',
         ipHostname: '',
         extension: '',
-        startTime: '',
-        reportTime: '',
-        endTime: '',
+        startTime: new Date(),
+        reportTime: new Date(),
+        endTime: new Date(),
         impactedStaffed: ''
       }
     },
     methods: {
       create() {
-
+        this.$store
+        .dispatch("create", {
+          reportedBy: this.reportedBy,
+          lob: this.lob,
+          schedule: this.schedule,
+          client: this.client,
+          site: this.site,
+          platform: this.platform,
+          issue: this.issue,
+          ipHostname: this.ipHostname,
+          extension: this.extension,
+          startTime: this.startTime,
+          reportTime: this.reportTime,
+          endTime: this.endTime,
+          impactedStaffed: this.impactedStaffed
+        })
+        .then(response => {
+          // this.$router.push({ name: "dashboard" });
+          console.log(response);
+          this.$refs.formCreate.reset();
+        })
+        .catch(error => {
+          console.log(error)
+        })
       }
     }
 };
@@ -223,47 +246,6 @@ export default {
 
 <style>
     
-    .form-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100vh;
-    }
-
-    .form-container form {
-        width: 500px;
-        margin: auto;
-        position: absolute;
-        top: 20%;
-        left: 20%;
-    }
-
-    .form-row {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .form-input,.form-label {
-      margin: 5px;
-      font-size: var(--font_md);
-    }
-
-    .form-label {
-      line-height: 2.5;
-    }
-
-    .form-input {
-      width: 100%;
-      height: 40px;
-      box-shadow: var(--shadow);
-      border: none;
-      outline: none;
-      border-bottom: 1px solid var(--primary);
-      line-height: 1;
-    } 
-
     .form-button__container{
       display: flex;
       position: absolute;

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard'
 import FormData from '../components/FormData'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -23,7 +24,7 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: FormData
+    component: Login
   }
 ]
 

@@ -18,11 +18,12 @@ export default {
 
 <style>
     .header {
-        position: absolute;
+        position: fixed;
         display: inline-block;
         width: calc(100% - 250px);
         left: 250px;
         z-index: 10;
+        background-color: var(--white);
     }
 
     .header__content {
