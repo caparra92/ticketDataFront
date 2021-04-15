@@ -9,7 +9,7 @@
                   <router-link to="/dashboard/new"><i class="fa fa-plus"></i> New</router-link>
               </li>
               <li class="menu__container-element">
-                  <router-link to="#"><i class="fa fa-ticket"></i> My Tickets</router-link>
+                  <router-link to="/dashboard/tickets"><i class="fa fa-ticket"></i> My Tickets</router-link>
               </li>
               <li class="menu__container-element">
                   <router-link to="/new"><i class="fa fa-bar-chart"></i> Graphics</router-link>
@@ -41,7 +41,7 @@ export default {
         position: fixed;
         height: 100%;
         width: 250px;
-        background-color: var(--primary);
+        background-color: var(--purple);
         border-radius: var(--border_radius);
         z-index: 10;
     }
@@ -68,8 +68,8 @@ export default {
     }
 
     .menu__container-element:hover {
-        background-color: var(--primary_hover);
-        color: var(--primary);
+        background-color: var(--purple_hover);
+        color: var(--purple);
         cursor: pointer;
     }
 

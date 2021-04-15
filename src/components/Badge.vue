@@ -7,8 +7,8 @@
     </div>
   <div class="user-badge__options" ref="options">
       <ul>
-          <li><a href="#"><i class="fa fa-ticket"></i> My tickets</a></li>
-          <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+          <li><router-link to="/dashboard/tickets"><i class="fa fa-ticket"></i> My Tickets</router-link></li>
+          <li><a href="#" @click="logout"><i class="fa fa-sign-out"></i> Logout</a></li>
       </ul>
   </div>
   </div>
@@ -25,6 +25,16 @@ export default {
             visible = !visible;
             let options = this.$refs.options;
             visible ?  options.style.visibility = 'visible' : options.style.visibility = 'hidden';
+        },
+        logout() {
+            this.$store.dispatch('logout')
+                .then(res => {
+                    console.log(res);
+                    this.$router.push('/');
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
     }
 }
@@ -55,8 +65,14 @@ export default {
         width: 150px;
         height: 100px;
         border-radius: var(--border_radius);
-        border: 1px solid var(--primary);
+        border: 1px solid var(--purple);
         visibility: hidden;
+        background-color: var(--purple);
+    }
+
+    .user-badge__options a {
+        text-decoration: none;
+        color: var(--white);
     }
 
     .user-badge__options ul {

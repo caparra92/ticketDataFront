@@ -32,7 +32,7 @@ export default {
         font-size: 18px;
         line-height: 2.5;
         border: none;
-        border-bottom: 2px solid var(--primary);
+        border-bottom: 2px solid var(--purple);
         box-shadow: var(--shadow_bottom);
     }
 </style>

@@ -11,8 +11,18 @@ export default {
 
 <style>
 :root {
-  --primary: #7f32a8;
-  --primary_hover: #572374;
+  --purple: #7f32a8;
+  --purple_hover: #572374;
+  --blue: #311c91;
+  --blue_hover: #231469;
+  --indigo: #007bff;
+  --indigo_hover: #025ab9;
+  --pink: #a81b8a;
+  --pink_hover: #7e1266;
+  --warning: #c7850c;
+  --warning_hover: #ac730a;
+  --danger: #b43524;
+  --danger_hover: #91291c;
   --white: #fff;
   --border_radius: 3px;
   --font_lg: 18px;
@@ -118,7 +128,71 @@ export default {
   box-shadow: var(--shadow);
   border: none;
   outline: none;
-  border-bottom: 1px solid var(--primary);
+  border-bottom: 1px solid var(--purple);
   line-height: 1;
+}
+
+.button {
+  display: block;
+  width: 100px;
+  height: 40px;
+  border-radius: var(--border_radius);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.button-warning {
+  background-color: var(--warning);
+  color: var(--white);
+}
+
+.button-warning:hover {
+  background-color: var(--warning_hover);
+}
+
+.button-danger {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+.button-danger:hover {
+  background-color: var(--danger_hover);
+}
+
+.button-purple {
+  background-color: var(--purple);
+  color: var(--white);
+}
+
+.button-purple:hover {
+  background-color: var(--purple_hover);
+}
+
+.button-pink {
+  background-color: var(--pink);
+  color: var(--white);
+}
+
+.button-pink:hover {
+  background-color: var(--pink_hover);
+}
+
+.button-blue {
+  background-color: var(--blue);
+   color: var(--white);
+}
+
+.button-blue:hover {
+  background-color: var(--blue_hover);
+}
+
+.button-indigo {
+  background-color: var(--indigo);
+   color: var(--white);
+}
+
+.button-indigo:hover {
+  background-color: var(--indigo_hover);
 }
 </style>

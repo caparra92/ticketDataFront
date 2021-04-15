@@ -6,11 +6,11 @@
         <div class="col-9">
           <input
             type="text"
-            id="Reported By"
             name="Reported By"
             class="form-input"
             placeholder="Reported by"
             v-model="reportedBy"
+            ref="reportedBy"
           />
         </div>
       </div>
@@ -19,7 +19,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="LOB"
             name="LOB"
             class="form-input"
             placeholder="LOB"
@@ -32,7 +31,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="schedule"
             name="Schedule"
             class="form-input"
             placeholder="Schedule"
@@ -45,7 +43,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="Client"
             name="Client"
             class="form-input"
             placeholder="Client"
@@ -58,7 +55,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="Site"
             name="Site"
             class="form-input"
             placeholder="Site"
@@ -71,7 +67,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="Platform"
             name="Platform"
             class="form-input"
             placeholder="Platform"
@@ -83,7 +78,6 @@
         <label class="form-label" for="Issue">Issue</label>
         <div class="col-9">
           <textarea
-            id="Issue"
             name="Issue"
             class="form-input"
             placeholder="Issue"
@@ -98,7 +92,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="IP/Hostname"
             name="IP/Hostname"
             class="form-input"
             placeholder="IP/Hostname"
@@ -111,7 +104,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="Extension"
             name="Extension"
             class="form-input"
             placeholder="Extension"
@@ -126,7 +118,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="start"
             name="Start Time"
             class="form-input"
             placeholder="Start Time"
@@ -141,7 +132,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="report"
             name="Report Time"
             class="form-input"
             placeholder="Report Time"
@@ -154,7 +144,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="end"
             name="End Time"
             class="form-input"
             placeholder="End Time"
@@ -169,7 +158,6 @@
         <div class="col-9">
           <input
             type="text"
-            id="Impacted/Staffed"
             name="Impacted/Staffed"
             class="form-input"
             placeholder="Impacted/Staffed"
@@ -185,17 +173,21 @@
       </div>
     </form>
     <div class="form-button__container">
-      <button class="form-button"><i class="fa fa-plus-circle"></i> New</button>
-      <button class="form-button"><i class="fa fa-copy"></i> Copy</button>
-      <button class="form-button"><i class="fa fa-eraser"></i> Reset</button>
-      <button class="form-button" @click="create"><i class="fa fa-save"></i> Save</button>
+      <button-action name="Copy" icon="copy" background="button-blue"></button-action>
+      <button-action name="Reset" icon="eraser" background="button-indigo"></button-action>
+      <button-action name="Save" icon="save" background="button-purple" @clicked="create"></button-action>
     </div>
   </div>
 </template>
 
 <script>
+import ButtonAction from './ButtonAction.vue';
+
 export default {
     name: 'FormData',
+    components: {
+      ButtonAction
+    },
     data() {
       return {
         reportedBy: '',
@@ -235,6 +227,7 @@ export default {
           // this.$router.push({ name: "dashboard" });
           console.log(response);
           this.$refs.formCreate.reset();
+          this.$refs.reportedBy.focus();
         })
         .catch(error => {
           console.log(error)
