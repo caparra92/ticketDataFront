@@ -7,9 +7,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tickets: [],
-    token: localStorage.getItem('access_token') || null
+    token: localStorage.getItem('access_token') || null,
+    zone: '-3'
   },
   mutations: {
+    setZone(state, payload) {
+      state.zone = payload
+    },
     getTickets(state, payload) {
       state.tickets = payload
     },
@@ -32,9 +36,15 @@ export default new Vuex.Store({
     },
     loggedIn(state) {
       return state.token !== null
+    },
+    getZone(state) {
+      return state.zone
     }
   },
   actions: {
+    changeZone(context, value) {
+      context.commit('setZone', value)
+    },
     login(context, value) {
       return new Promise((resolve, reject) => {
         axios.post('http://localhost:3000/api/login', {

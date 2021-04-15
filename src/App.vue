@@ -142,6 +142,14 @@ export default {
   cursor: pointer;
 }
 
+.button-sm {
+  font-size: 20px;
+  margin-left: 0;
+  width: 40px;
+  height: 38px;
+  line-height: 1;
+}
+
 .button-warning {
   background-color: var(--warning);
   color: var(--white);
@@ -180,7 +188,7 @@ export default {
 
 .button-blue {
   background-color: var(--blue);
-   color: var(--white);
+  color: var(--white);
 }
 
 .button-blue:hover {
@@ -189,7 +197,7 @@ export default {
 
 .button-indigo {
   background-color: var(--indigo);
-   color: var(--white);
+  color: var(--white);
 }
 
 .button-indigo:hover {
