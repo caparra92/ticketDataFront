@@ -84,7 +84,7 @@ export default new Vuex.Store({
     },
     create(_, value) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:3000/api/ticketData', {
+        axios.post('http://localhost:3000/api/tickets', {
           reportedBy: value.reportedBy,
           lob: value.lob,
           schedule: value.schedule,
@@ -108,8 +108,11 @@ export default new Vuex.Store({
       })
     },
     getAll(context) {
+      const token = localStorage.getItem('access_token');
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:3000/api/ticketData')
+        axios.get('http://localhost:3000/api/tickets', {headers: {
+          'Authorization': token
+        }})
           .then(response => {
             context.commit('getTickets',response.data)
             resolve(response)
@@ -121,8 +124,11 @@ export default new Vuex.Store({
       })
     },
     remove(context,value) {
+      const token = localStorage.getItem('access_token');
       return new Promise((resolve, reject) => {
-        axios.delete(`http://localhost:3000/api/ticketData/${value.id}`)
+        axios.delete(`http://localhost:3000/api/tickets/${value.id}`,{headers: {
+          'Authorization': token
+        }})
           .then(response => {
             context.commit('removeTicket',value.id)
             resolve(response)
