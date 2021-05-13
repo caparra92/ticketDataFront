@@ -7,16 +7,18 @@
           name="timeReport"
           ref="time"
           @focus="getTime($event)"
+          v-model="time"
         />
       </div>
       <div class="col-7">
-        <textarea type="text" class="form-input" name="reportNote"></textarea>
+        <textarea type="text" class="form-input" name="reportNote" v-model="log.content"></textarea>
       </div>
     </div>
     <div class="col-2">
       <div class="form-row">
-        <button class="button button-purple button-sm" @click.prevent="newLog">+</button>
-        <button class="button button-blue button-sm" @click.prevent="removeLog">-</button>
+        <button class="button button-purple button-sm" @click.prevent="newLog"><i class="fa fa-plus"></i></button>
+        <button class="button button-blue button-sm" @click.prevent="removeLog"><i class="fa fa-minus"></i></button>
+        <button class="button button-indigo button-sm" @click.prevent="sendLog"><i class="fa fa-send"></i></button>
       </div>
     </div>
   </div>
@@ -74,6 +76,9 @@ export default {
     },
     removeLog() {
         this.logs.pop();
+    },
+    sendLog() {
+      this.$emit('sendLog',this.logs)
     }
   },
 };

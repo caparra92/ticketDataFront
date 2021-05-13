@@ -82,7 +82,14 @@ export default new Vuex.Store({
           })
       })
     },
-    create(_, value) {
+    create(context, value) {
+      let axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+            "User": localStorage.getItem('user_id')
+        }
+      };
       return new Promise((resolve, reject) => {
         axios.post('http://localhost:3000/api/tickets', {
           reportedBy: value.reportedBy,
@@ -97,8 +104,9 @@ export default new Vuex.Store({
           startTime: value.startTime,
           reportTime: value.reportTime,
           endTime: value.endTime,
-          impactedStaffed: value.impactedStaffed
-        })
+          impactedStaffed: value.impactedStaffed,
+          logs: value.logs
+        }, axiosConfig)
           .then(response => {
             resolve(response)
           })
@@ -109,8 +117,9 @@ export default new Vuex.Store({
     },
     getAll(context) {
       const token = localStorage.getItem('access_token');
+      const user = localStorage.getItem('user_id');
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:3000/api/tickets', {headers: {
+        axios.get(`http://localhost:3000/api/tickets/${user}`, {headers: {
           'Authorization': token
         }})
           .then(response => {

@@ -2,7 +2,9 @@
   <div class="dashboard">
     <Head></Head>
     <Menu></Menu>
-    <router-view/>
+    <transition name="slide" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -19,5 +21,14 @@ export default {
 </script>
 
 <style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.5s, transform 0.5s;
+}
 
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+}
 </style>

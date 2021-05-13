@@ -166,7 +166,7 @@
         </div>
       </div>
       <h5 class="form-label">Logs</h5>
-      <form-log />
+      <form-log @sendLog="getLog($event)"/>
     </form>
     <div class="form-button__container">
       <button-action
@@ -248,6 +248,7 @@ export default {
         reportTime: this.calcTime("-3"),
         endTime: this.calcTime("-3"),
         impactedStaffed: "",
+        logs: []
       }
     };
   },
@@ -307,8 +308,16 @@ export default {
       })
       result.select();
       document.execCommand("Copy");
+      this.$swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Copied to clipboard',
+            showConfirmButton: false,
+            timer: 1500
+          });
     },
     create() {
+      console.log(this.$refs.formCreate.values)
       this.$store
         .dispatch("create", {
           reportedBy: this.ticketData.reportedBy,
@@ -324,10 +333,18 @@ export default {
           reportTime: this.ticketData.reportTime,
           endTime: this.ticketData.endTime,
           impactedStaffed: this.ticketData.impactedStaffed,
+          logs: this.logs
         })
         .then((response) => {
           // this.$router.push({ name: "dashboard" });
-          console.log(response);
+          console.log(response)
+          this.$swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
           this.reset();
         })
         .catch((error) => {
@@ -346,6 +363,10 @@ export default {
       this.ticketData.extension = "";
       this.ticketData.impactedStaffed = "";
       this.$refs.reportedBy.focus();
+    },
+    getLog(event) {
+      this.logs = event;
+      console.log(this.logs)
     }
   },
 };
