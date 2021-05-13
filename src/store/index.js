@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     tickets: [],
     token: localStorage.getItem('access_token') || null,
-    zone: '-3'
+    zone: '-3',
+    BASE_URL: 'https://ticket-data.herokuapp.com/api'
   },
   mutations: {
     setZone(state, payload) {
@@ -47,7 +48,7 @@ export default new Vuex.Store({
     },
     login(context, value) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:3000/api/login', {
+        axios.post(`${context.state.BASE_URL}/login`, {
           username: value.username,
           password: value.password
         })
@@ -67,7 +68,7 @@ export default new Vuex.Store({
     },
     logout(context) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:3000/api/login')
+        axios.get(`${context.state.BASE_URL}/login`)
           .then(response => {
             const token = localStorage.getItem('access_token');
             console.log(response)
@@ -91,7 +92,7 @@ export default new Vuex.Store({
         }
       };
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:3000/api/tickets', {
+        axios.post(`${context.state.BASE_URL}/tickets`, {
           reportedBy: value.reportedBy,
           lob: value.lob,
           schedule: value.schedule,
@@ -119,7 +120,7 @@ export default new Vuex.Store({
       const token = localStorage.getItem('access_token');
       const user = localStorage.getItem('user_id');
       return new Promise((resolve, reject) => {
-        axios.get(`http://localhost:3000/api/tickets/${user}`, {headers: {
+        axios.get(`${context.state.BASE_URL}/tickets/${user}`, {headers: {
           'Authorization': token
         }})
           .then(response => {
@@ -135,7 +136,7 @@ export default new Vuex.Store({
     remove(context,value) {
       const token = localStorage.getItem('access_token');
       return new Promise((resolve, reject) => {
-        axios.delete(`http://localhost:3000/api/tickets/${value.id}`,{headers: {
+        axios.delete(`${context.state.BASE_URL}/tickets/${value.id}`,{headers: {
           'Authorization': token
         }})
           .then(response => {
