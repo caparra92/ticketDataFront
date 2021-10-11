@@ -2,52 +2,77 @@
   <div class="tickets-container">
     <div class="tickets-search">
       <div class="search-input-container">
-        <div class="search-input-options">
-          <div class="options">
-            <div class="option-container">
-              <label class="label-option">
-                <span class="select-none pr-3 mr-3">Client</span>
-                <div class="input-container w-8 h-6 p-1 mr-2">
-                  <input
-                    value="client"
-                    type="checkbox"
-                    class="hidden"
-                    name="check"
-                    v-model="filterOption"
-                  />
-                  <IconCheck class="hidden input-option" />
+        <div class="form-search-container">
+          <form
+            class="form-search"
+            autocomplete="off"
+          >
+            <div class="options-container">
+              <div class="col-4 flex">
+                <label class="label-option flex">
+                  <span class="pr-3 mr-3">Client</span>
+                  <div class="w-8 h-6 p-1 flex mr-2 shadow justify-center items-center">
+                    <input
+                      value="client"
+                      type="checkbox"
+                      class="hidden"
+                      name="check"
+                      ref="client"
+                      @click='getValueCheck($event)'
+                    />
+                    <IconCheck class="hidden w-4 h-4 input-option" />
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="options-container">
+              <div class="col-4 flex">
+                <label class="label-option flex">
+                  <span class="pr-3 mr-3">Issue</span>
+                  <div class="w-8 h-6 p-1 flex mr-2 shadow justify-center items-center">
+                    <input
+                      value="issue"
+                      type="checkbox"
+                      class="hidden"
+                      name="check"
+                      v-model="filterOption"
+                      @click='getValueCheck($event)'
+                      ref="issue"
+                    />
+                    <IconCheck class="hidden w-4 h-4 input-option" />
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="col-12 flex">
+              <div class="col-12 px-2">
+                <input
+                  type="search"
+                  name="question"
+                  id="question"
+                  placeholder="Type search"
+                  v-model="search"
+                  class="input-search"
+                />
+                <div class="icon-search w-4" style="top: -1.595rem;left: 0.55rem;">
+                  <svg
+                    class="fill-current pointer-events-none w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
+                    />
+                  </svg>
                 </div>
-              </label>
-          </div>
-          </div>
-          <div class="option-container">
-              <label class="label-option">
-                <span class="select-none pr-3 mr-3">Issue</span>
-                <div class="input-container w-8 h-6 p-1 mr-2">
-                  <input
-                    value="issue"
-                    type="checkbox"
-                    class="hidden"
-                    name="check"
-                    v-model="filterOption"
-                  />
-                  <IconCheck class="hidden input-option" />
-                </div>
-              </label>
-          </div>
-        </div>
-        <div class="search-input text">
-          <span class="icon-search"><i class="fa fa-search"></i></span>
-          <input
-            type="text"
-            class="input-search"
-            name="search"
-            id="search"
-            v-model="search"
-          />
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+
+    
     <table class="tickets-summary table-md">
       <tr>
         <th>Client</th>
@@ -175,17 +200,24 @@ export default {
   computed: {
     getTickets() {
       return this.$store.getters.getTickets.filter((ticket) => {
-        return `${ticket}.${this.filterOption}`.toLowerCase().includes(this.search.toLowerCase());
+        return ticket.client.toLowerCase().includes(this.search.toLowerCase()); 
+        //al poner `${ticket}.${filterOption}`se concatena como texto y no toma la propiedad se deja client como hardcode
       });
     },
   },
   methods: {
+    getValueCheck(ref){
+      let check = ref.target
+      if(check.checked) {
+        console.log(check.value)
+        return check.value
+      }
+    },
     getAll() {
       this.$store
         .dispatch("getAll")
         .then((tickets) => {
           this.tickets = tickets.data;
-          console.log(tickets);
         })
         .catch((error) => {
           console.log(error);
@@ -282,38 +314,51 @@ td {
 }
 
 .search-input-container {
-  position: absolute;
+  position: fixed;
+  top: 100px;
   right: 15px;
   display: flex;
+  width: 30%;
 }
 
-.search-input-options {
-  padding: 10px;
+.form-search-container {
+  display: flex;
+  align-items: center;
+}
+
+.form-search {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  padding: .25rem;
+  background-color: var(--grey);
+}
+
+.options-container {
+  display: inline;
+  margin-bottom: 1.25rem;
+  margin-top: 0.75rem;
+  align-items: center;
+  width: 50%;
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .input-option {
   pointer-events: none;
   color: var(--indigo);
-  width: 20px;
-  height: 20px;
-}
-
-.search-input-options input {
-  margin-left: 5px;
+  font-size: var(--font_lg);
 }
 
 .options {
   display: inline;
   align-items: center;
   width: 50%;
-}
-
-.option-container {
-  display: flex;
 }
 
 .input-container {
@@ -330,15 +375,23 @@ td {
 .label-option {
   cursor: pointer !important;
   display: flex;
+  padding-left: 10px;
+}
+
+.label-option input:checked + svg {
+    display: block !important;
+}
+
+.label-option div {
+  background-color: var(--white);
 }
 
 .icon-search {
-  position: absolute;
-  line-height: 2;
-  margin: 3px 5px;
+  position: relative;
+  line-height: 1;
 }
 
-.icon-search i {
+.icon-search svg {
   color: var(--purple);
 }
 
@@ -346,7 +399,8 @@ td {
   border: 1px solid var(--purple);
   margin-right: 10px;
   padding: 10px;
-  padding-left: 20px;
+  padding-left: 1.5rem;
   border-radius: 3px;
+  width: 100%;
 }
 </style>

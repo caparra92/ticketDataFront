@@ -24,7 +24,8 @@ export default {
   --danger: #b43524;
   --danger_hover: #91291c;
   --white: #fff;
-  --border_radius: 3px;
+  --grey: #c0bebe;
+  --border_radius: 3px;   
   --font_lg: 18px;
   --font_md: 14px;
   --font_sd: 10px;
@@ -35,6 +36,46 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: Helvetica, sans-serif;
+}
+
+.w-4 {
+    width: 1rem;
+}
+
+.w-8 {
+    width: 2rem;
+}
+
+.pointer-events-none {
+    pointer-events: none;
+}
+
+.h-4 {
+    height: 1rem;
+}
+
+.p-1 {
+    padding: 0.25rem;
+}
+
+.px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.h-6 {
+    height: 1.5rem;
+}
+
+.pr-3 {
+  padding-right: 0.75rem;
+}
+.mr-3 {
+  margin-right: 0.75rem;
 }
 
 .row {
@@ -90,6 +131,10 @@ export default {
   width: 100%;
 }
 
+.shadow {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+}
+
 .form-container {
   position: relative;
   display: flex;
@@ -110,6 +155,18 @@ export default {
 .form-row {
   display: flex;
   justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.items-center {
+    align-items: center;
 }
 
 .form-input,
