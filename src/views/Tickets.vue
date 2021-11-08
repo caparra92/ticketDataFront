@@ -18,7 +18,7 @@
                       class="hidden"
                       name="check"
                       ref="client"
-                      @click='getValueCheck($event)'
+                      @click='getValueCheck()'
                     />
                     <IconCheck class="hidden w-4 h-4 input-option" />
                   </div>
@@ -88,6 +88,15 @@
         <td>{{ ticket.reportTime | date }}</td>
         <td>{{ ticket.endTime | date }}</td>
         <td>{{ ticket.issue }}</td>
+        <td>
+          <button
+            class="button button-pink"
+            @click="edit(ticket._id)"
+            title="New log"
+          >
+            <i class="fa fa-pencil"></i>
+          </button>
+        </td>
         <td>
           <button
             class="button button-indigo"
@@ -189,7 +198,7 @@ export default {
   data() {
     return {
       search: "",
-      filterOption: 'client',
+      filterOption: '',
       tickets: {},
       ticket: {},
     };
@@ -200,14 +209,22 @@ export default {
   computed: {
     getTickets() {
       return this.$store.getters.getTickets.filter((ticket) => {
-        return ticket.client.toLowerCase().includes(this.search.toLowerCase()); 
+        let filterOption = this.getValueCheck() || "client";
+        ticket.filterOption = filterOption;
+        console.log(filterOption)
+        console.log(this.search)
+        if(this.search != "") {
+          return ticket.filterOption.toLowerCase().includes(this.search.toLowerCase());
+        } else {
+          return this.$store.getters.getTickets;
+        }
         //al poner `${ticket}.${filterOption}`se concatena como texto y no toma la propiedad se deja client como hardcode
       });
     },
   },
   methods: {
-    getValueCheck(ref){
-      let check = ref.target
+    getValueCheck(){
+      let check = event.target
       if(check.checked) {
         console.log(check.value)
         return check.value
@@ -223,6 +240,9 @@ export default {
           console.log(error);
           localStorage.removeItem("access_token");
         });
+    },
+    edit(id) {
+      this.$router.push(`/dashboard/tickets/${id}`);
     },
     remove(id) {
       //alert
@@ -351,7 +371,7 @@ td {
 
 .input-option {
   pointer-events: none;
-  color: var(--indigo);
+  color: var(--pink);
   font-size: var(--font_lg);
 }
 

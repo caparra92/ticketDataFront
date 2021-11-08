@@ -121,11 +121,27 @@ export default new Vuex.Store({
       const token = localStorage.getItem('access_token');
       const user = localStorage.getItem('user_id');
       return new Promise((resolve, reject) => {
-        axios.get(`${context.state.BASE_URL}/tickets/${user}`, {headers: {
+        axios.get(`${context.state.BASE_URL}/tickets/user/${user}`, {headers: {
           'Authorization': token
         }})
           .then(response => {
             context.commit('getTickets',response.data)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error)
+          })
+      })
+    },
+    getTicket(context, value) {
+      const token = localStorage.getItem('access_token');
+      const id = value.id
+      return new Promise((resolve, reject) => {
+        axios.get(`${context.state.BASE_URL}/tickets/${id}`, {headers: {
+          'Authorization': token
+        }})
+          .then(response => {
             resolve(response)
           })
           .catch(error => {

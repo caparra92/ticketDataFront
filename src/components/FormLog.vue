@@ -29,14 +29,13 @@ export default {
   name: "FormLog",
   data() {
     return {
-      time: this.calcTime(this.$store.state.zone),
-      logs: [
-        { time: this.calcTime(this.$store.state.zone), content: "" },
-        { time: this.calcTime(this.$store.state.zone), content: "" },
-      ],
+      time: this.calcTime(this.$store.state.zone)
     };
   },
   props: {
+    logs: {
+      type: Array
+    },
     calcTime: {
       type: Function,
       default(offset) {
@@ -61,12 +60,26 @@ export default {
         );
       },
     },
+    
   },
   methods: {
     getTime(event) {
       let time = event.target;
       time.value = this.calcTime(this.$store.state.zone);
       time.disabled = true
+    },
+    changeTimezone(event) {
+      let country = event.target.value;
+      if (country === "brazil") {
+        this.$store.dispatch("changeZone", "-3");
+        this.time = this.calcTime("-3");
+      } else if (country === "portugal") {
+        this.$store.dispatch("changeZone", "0");
+        this.time = this.calcTime("+1");
+      } else {
+        this.$store.dispatch("changeZone", "-5");
+        this.time = this.calcTime("-5");
+      }
     },
     newLog() {
       this.logs.push({

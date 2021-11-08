@@ -166,7 +166,7 @@
         </div>
       </div>
       <h5 class="form-label">Logs</h5>
-      <form-log @sendLog="getLog($event)"/>
+      <form-log @sendLog="getLog($event)" :logs="ticketData.logs"/>
     </form>
     <div class="form-button__container">
       <button-action
@@ -182,9 +182,9 @@
         @clicked="reset"
       ></button-action>
       <button-action
-        name="Save"
-        icon="save"
-        background="button-purple"
+        name="Update"
+        icon="edit"
+        background="button-warning"
         @clicked="create"
       ></button-action>
     </div>
@@ -227,30 +227,10 @@ import ButtonAction from "./ButtonAction.vue";
 import FormLog from "./FormLog.vue";
 
 export default {
-  name: "FormData",
+  name: "EditTicket",
   components: {
     ButtonAction,
     FormLog,
-  },
-  data() {
-    return {
-      ticketData: {
-        reportedBy: "",
-        lob: "",
-        schedule: "",
-        client: "",
-        site: "",
-        platform: "",
-        issue: "",
-        ipHostname: "",
-        extension: "",
-        startTime: this.calcTime("-3"),
-        reportTime: this.calcTime("-3"),
-        endTime: this.calcTime("-3"),
-        impactedStaffed: "",
-        logs: []
-      }
-    };
   },
   props: {
     calcTime: {
@@ -260,7 +240,7 @@ export default {
         const utc = d.getTime() + d.getTimezoneOffset() * 60000;
         const nd = new Date(utc + 3600000 * offset);
         let month = nd.getMonth();
-        month = month < 10 ? `0${month + 1}` : `${month}`;
+        month = month < 10 ? `0${month+1}` : `${month+1}`;
 
         return (
           nd.getFullYear() +
@@ -278,7 +258,28 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      ticketData: {}
+    };
+  },
+  mounted() {
+    this.edit();
+  },
   methods: {
+     edit() {
+      let id = this.$route.params.id;
+      console.log(id);
+      this.$store
+        .dispatch("getTicket", {id})
+        .then((ticket) => {
+          this.ticketData = ticket.data.ticket
+          console.log(this.ticketData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     changeTimezone(event) {
       let country = event.target.value;
       if (country === "brazil") {
@@ -287,10 +288,10 @@ export default {
         this.ticketData.reportTime = this.calcTime("-3");
         this.ticketData.endTime = this.calcTime("-3");
       } else if (country === "portugal") {
-        this.$store.dispatch("changeZone", "+1");
-        this.ticketData.startTime = this.calcTime("+1");
-        this.ticketData.reportTime = this.calcTime("+1");
-        this.ticketData.endTime = this.calcTime("+1");
+        this.$store.dispatch("changeZone", "0");
+        this.ticketData.startTime = this.calcTime("0");
+        this.ticketData.reportTime = this.calcTime("0");
+        this.ticketData.endTime = this.calcTime("0");
       } else {
         this.$store.dispatch("changeZone", "-5");
         this.ticketData.startTime = this.calcTime("-5");
@@ -367,50 +368,10 @@ export default {
     getLog(event) {
       this.logs = event;
     }
-  },
-};
+  }
+}
 </script>
 
 <style>
-.form-button__container {
-  display: flex;
-  position: absolute;
-  left: 60%;
-  top: 20%;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
-.form-button__timezone {
-  display: flex;
-  position: absolute;
-  left: 60%;
-  top: 75%;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.form-button__timezone h5 {
-  margin-bottom: 10px;
-}
-
-.form-button__timezone-container {
-  margin: 5px;
-}
-
-.form-button__timezone-container input {
-  margin-left: 7px;
-}
-
-.form-button {
-  height: 100px;
-  width: 200px;
-  margin: 10px 0;
-  font-size: var(--font_lg);
-  text-align: center;
-  border-radius: var(--border_radius);
-  box-shadow: var(--shadow);
-  outline: none;
-  cursor: pointer;
-}
 </style>

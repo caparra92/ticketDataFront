@@ -52,15 +52,12 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.user)
-      console.log(this.password)
       this.$store
         .dispatch("login", {
           username: this.user,
           password: this.password,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$router.push('/dashboard');
         })
         .catch((error) => {

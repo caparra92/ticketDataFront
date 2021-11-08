@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import Dashboard from '../views/Dashboard'
 import FormData from '../components/FormData'
+import EditTicket from '../components/EditTicket'
 import Login from '../views/Login'
 import Tickets from '../views/Tickets'
 
@@ -49,6 +50,15 @@ const routes = [
         beforeEnter: loggedIn,
         meta: {
           title: 'My Tickets',
+          requiresAuth: true,
+        }
+      },
+      { 
+        path: '/dashboard/tickets/:id',
+        component: EditTicket,
+        beforeEnter: loggedIn,
+        meta: {
+          title: 'Edit ticket',
           requiresAuth: true,
         }
       }
