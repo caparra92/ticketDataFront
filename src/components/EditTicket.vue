@@ -166,7 +166,7 @@
         </div>
       </div>
       <h5 class="form-label">Logs</h5>
-      <form-log @sendLog="getLog($event)" :logs="ticketData.logs"/>
+      <form-log :logs="ticketData.logs"/>
     </form>
     <div class="form-button__container">
       <button-action
@@ -185,7 +185,7 @@
         name="Update"
         icon="edit"
         background="button-warning"
-        @clicked="create"
+        @clicked="update(ticketData._id)"
       ></button-action>
     </div>
     <div class="form-button__timezone">
@@ -317,10 +317,12 @@ export default {
             timer: 1500
           });
     },
-    create() {
-      console.log(this.$refs.formCreate.values)
+    update(id) {
+      console.log(id)
+      console.log(`este es es body ${this.ticketData.client}`)
       this.$store
-        .dispatch("create", {
+        .dispatch("update", {
+          id,
           reportedBy: this.ticketData.reportedBy,
           lob: this.ticketData.lob,
           schedule: this.ticketData.schedule,
@@ -334,7 +336,7 @@ export default {
           reportTime: this.ticketData.reportTime,
           endTime: this.ticketData.endTime,
           impactedStaffed: this.ticketData.impactedStaffed,
-          logs: this.logs
+          logs: this.ticketData.logs
         })
         .then((response) => {
           // this.$router.push({ name: "dashboard" });

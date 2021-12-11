@@ -117,6 +117,40 @@ export default new Vuex.Store({
           })
       })
     },
+    update(context, value) {
+      console.log(value.id)
+      const token = localStorage.getItem('access_token');
+      let axiosConfig = {
+        headers: {
+          'Authorization': token
+        }
+      };
+      return new Promise((resolve, reject) => {
+        axios.put(`${context.state.BASE_URL}/tickets/${value.id}`, {
+          reportedBy: value.reportedBy,
+          lob: value.lob,
+          schedule: value.schedule,
+          client: value.client,
+          site: value.site,
+          platform: value.platform,
+          issue: value.issue,
+          ipHostname: value.ipHostname,
+          extension: value.extension,
+          startTime: value.startTime,
+          reportTime: value.reportTime,
+          endTime: value.endTime,
+          impactedStaffed: value.impactedStaffed,
+          logs: value.logs
+        }, axiosConfig)
+          .then(response => {
+            resolve(response)
+            console.log(value)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     getAll(context) {
       const token = localStorage.getItem('access_token');
       const user = localStorage.getItem('user_id');

@@ -209,10 +209,10 @@ export default {
   computed: {
     getTickets() {
       return this.$store.getters.getTickets.filter((ticket) => {
-        let filterOption = this.getValueCheck() || "client";
-        ticket.filterOption = filterOption;
-        console.log(filterOption)
-        console.log(this.search)
+        // let filterOption = this.getValueCheck() || "client";
+        // ticket.filterOption = filterOption;
+        // console.log(filterOption)
+        // console.log(this.search)
         if(this.search != "") {
           return ticket.filterOption.toLowerCase().includes(this.search.toLowerCase());
         } else {
@@ -223,13 +223,13 @@ export default {
     },
   },
   methods: {
-    getValueCheck(){
-      let check = event.target
-      if(check.checked) {
-        console.log(check.value)
-        return check.value
-      }
-    },
+    // getValueCheck(){
+    //   let check = event.target;
+    //   if(check.checked) {
+    //     console.log(check.value)
+    //     return check.value
+    //   }
+    // },
     getAll() {
       this.$store
         .dispatch("getAll")

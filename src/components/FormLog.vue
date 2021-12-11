@@ -18,7 +18,7 @@
       <div class="form-row">
         <button class="button button-purple button-sm" @click.prevent="newLog"><i class="fa fa-plus"></i></button>
         <button class="button button-blue button-sm" @click.prevent="removeLog"><i class="fa fa-minus"></i></button>
-        <button class="button button-indigo button-sm" @click.prevent="sendLog"><i class="fa fa-send"></i></button>
+        <!-- <button class="button button-indigo button-sm" @click.prevent="sendLog"><i class="fa fa-send"></i></button> -->
       </div>
     </div>
   </div>
