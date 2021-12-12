@@ -166,7 +166,7 @@
         </div>
       </div>
       <h5 class="form-label">Logs</h5>
-      <form-log @sendLog="getLog($event)"/>
+      <form-log @sendLog="getLog($event)" :logs="ticketData.logs" />
     </form>
     <div class="form-button__container">
       <button-action
@@ -191,32 +191,37 @@
     <div class="form-button__timezone">
       <h5>Select timezone</h5>
       <div class="form-button__timezone-container">
-        <label for="brazil">Brazil</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="brazil"
-          checked
-          @click="changeTimezone($event)"
-        />
-      </div>
-      <div class="form-button__timezone-container">
-        <label for="portugal">Portugal</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="portugal"
-          @click="changeTimezone($event)"
-        />
-      </div>
-      <div class="form-button__timezone-container">
-        <label for="colombia">Colombia</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="colombia"
-          @click="changeTimezone($event)"
-        />
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="brazil"
+            checked
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/brazil.png" class="img__timezone"/>
+        </label>
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="portugal"
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/portugal.png" class="img__timezone"/>
+        </label>
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="colombia"
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/colombia.png" class="img__timezone"/>
+        </label>
       </div>
     </div>
   </div>
@@ -246,10 +251,12 @@ export default {
         extension: "",
         startTime: this.calcTime("-3"),
         reportTime: this.calcTime("-3"),
-        endTime: this.calcTime("-3"),
+        endTime: "",
         impactedStaffed: "",
-        logs: []
-      }
+        logs: [
+          { time: this.calcTime(this.$store.state.zone), content: "" }
+        ],
+      },
     };
   },
   props: {
@@ -262,19 +269,29 @@ export default {
         let month = nd.getMonth();
         month = month < 10 ? `0${month + 1}` : `${month}`;
 
-        return (
-          nd.getFullYear() +
-          "-" +
-          month +
-          "-" +
-          nd.getDate() +
-          " " +
+        if(offset == 0) {
+          return (
           nd.getHours() +
           ":" +
           nd.getMinutes() +
           ":" +
           nd.getSeconds()
-        );
+          );
+        } else {
+            return (
+            nd.getFullYear() +
+            "-" +
+            month +
+            "-" +
+            nd.getDate() +
+            " " +
+            nd.getHours() +
+            ":" +
+            nd.getMinutes() +
+            ":" +
+            nd.getSeconds()
+          );
+        }
       },
     },
   },
@@ -285,39 +302,50 @@ export default {
         this.$store.dispatch("changeZone", "-3");
         this.ticketData.startTime = this.calcTime("-3");
         this.ticketData.reportTime = this.calcTime("-3");
-        this.ticketData.endTime = this.calcTime("-3");
       } else if (country === "portugal") {
-        this.$store.dispatch("changeZone", "+1");
-        this.ticketData.startTime = this.calcTime("+1");
-        this.ticketData.reportTime = this.calcTime("+1");
-        this.ticketData.endTime = this.calcTime("+1");
+        this.$store.dispatch("changeZone", "0");
+        this.ticketData.startTime = this.calcTime("0");
+        this.ticketData.reportTime = this.calcTime("0");
       } else {
         this.$store.dispatch("changeZone", "-5");
         this.ticketData.startTime = this.calcTime("-5");
         this.ticketData.reportTime = this.calcTime("-5");
-        this.ticketData.endTime = this.calcTime("-5");
       }
     },
     copy() {
-      let titles = ['Reported by', 'LOB', 'LOB Schedule', 'Client', 'Site', 'Platform', 'Issue', 'IP/Hostname', 'Extension', 'Start Time', 'Report Time', 'End Time', 'Impacted/Staffed']
-      let result = this.$refs.result
-      let inputs = this.ticketData
+      let titles = [
+        "Reported by",
+        "LOB",
+        "LOB Schedule",
+        "Client",
+        "Site",
+        "Platform",
+        "Issue",
+        "IP/Hostname",
+        "Extension",
+        "Start Time",
+        "Report Time",
+        "End Time",
+        "Impacted/Staffed",
+      ];
+      let result = this.$refs.result;
+      let inputs = this.ticketData;
 
-      titles.forEach( (title, index) => {
-        result.value += `${title}: ${Object.values(inputs)[index]}\n`
-      })
+      titles.forEach((title, index) => {
+        result.value += `${title}: ${Object.values(inputs)[index]}\n`;
+      });
       result.select();
       document.execCommand("Copy");
       this.$swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Copied to clipboard',
-            showConfirmButton: false,
-            timer: 1500
-          });
+        position: "top-end",
+        icon: "success",
+        title: "Copied to clipboard",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     },
     create() {
-      console.log(this.$refs.formCreate.values)
+      console.log(this.$refs.formCreate.values);
       this.$store
         .dispatch("create", {
           reportedBy: this.ticketData.reportedBy,
@@ -333,18 +361,18 @@ export default {
           reportTime: this.ticketData.reportTime,
           endTime: this.ticketData.endTime,
           impactedStaffed: this.ticketData.impactedStaffed,
-          logs: this.logs
+          logs: this.logs,
         })
         .then((response) => {
           // this.$router.push({ name: "dashboard" });
-          console.log(response)
+          console.log(response);
           this.$swal.fire({
-            position: 'top-end',
-            icon: 'success',
+            position: "top-end",
+            icon: "success",
             title: response.data.message,
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 1500,
+          });
           this.reset();
         })
         .catch((error) => {
@@ -366,7 +394,7 @@ export default {
     },
     getLog(event) {
       this.logs = event;
-    }
+    },
   },
 };
 </script>
@@ -383,23 +411,90 @@ export default {
 
 .form-button__timezone {
   display: flex;
+  width: 200px;
   position: absolute;
   left: 60%;
-  top: 75%;
+  top: 78%;
+  padding-top: 0.5em;
+  margin-top: 0.5em;
+  border: 1px solid var(--purple);
+  border-radius: 5px;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .form-button__timezone h5 {
   margin-bottom: 10px;
+  border-bottom: 0.5px solid gray;
 }
 
 .form-button__timezone-container {
   margin: 5px;
+  padding: 0.3em;
 }
 
-.form-button__timezone-container input {
-  margin-left: 7px;
+.content-input input,
+.content-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+ 
+.content-input input{
+	visibility: hidden;
+	position: absolute;
+	right: 0;
+}
+
+.content-input{
+	position: relative;
+	margin-bottom: 30px;
+	padding:5px 0 5px 60px; /* Damos un padding de 60px para posicionar el elemento <i> en este espacio*/
+	display: block;
+  cursor: pointer;
+}
+ 
+/* Estas reglas se aplicarán a todos las elementos i después de cualquier input*/
+.content-input input + i{
+ background: var(--white);
+ border:2px solid var(--grey);
+ position: absolute; 
+ left: 0;
+ top: 0;
+}
+ 
+/* Estas reglas se aplicarán a todos los i despues de un input de tipo radio*/
+.content-input input[type=radio] + i{
+ height: 30px;
+ width: 30px;
+ border-radius: 100%;
+ left: 15px;
+}
+
+.content-input input[type=radio] + i:before{
+	content: '';
+	display: block;
+	height: 18px;
+	width: 18px;
+	background: var(--danger);
+	border-radius: 100%;
+	position: absolute;
+	z-index: 1;
+	top: 4px;
+	left: 4px;
+	background: var(--purple);
+	transition: all 0.25s ease; /* Todas las propiedades | tiempo | tipo movimiento */
+	transform: scale(0) /* Lo reducimos a 0*/ ;
+	opacity: 0; /* Lo ocultamos*/
+}
+
+.content-input input[type=radio]:checked + i:before{
+	transform: scale(1);
+	opacity: 1;
+}
+	
+.content-input:hover input[type=radio]:not(:checked) + i{
+	background: var(--purple_light);
 }
 
 .form-button {
@@ -412,5 +507,13 @@ export default {
   box-shadow: var(--shadow);
   outline: none;
   cursor: pointer;
+}
+
+.img__timezone {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 35px;
+  top: 0;
 }
 </style>

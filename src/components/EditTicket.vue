@@ -191,32 +191,37 @@
     <div class="form-button__timezone">
       <h5>Select timezone</h5>
       <div class="form-button__timezone-container">
-        <label for="brazil">Brazil</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="brazil"
-          checked
-          @click="changeTimezone($event)"
-        />
-      </div>
-      <div class="form-button__timezone-container">
-        <label for="portugal">Portugal</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="portugal"
-          @click="changeTimezone($event)"
-        />
-      </div>
-      <div class="form-button__timezone-container">
-        <label for="colombia">Colombia</label>
-        <input
-          type="radio"
-          name="timezone"
-          value="colombia"
-          @click="changeTimezone($event)"
-        />
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="brazil"
+            checked
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/brazil.png" class="img__timezone"/>
+        </label>
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="portugal"
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/portugal.png" class="img__timezone"/>
+        </label>
+        <label class="content-input">
+          <input
+            type="radio"
+            name="timezone"
+            value="colombia"
+            @click="changeTimezone($event)"
+          />
+          <i></i>
+          <img src="@/assets/colombia.png" class="img__timezone"/>
+        </label>
       </div>
     </div>
   </div>
@@ -242,19 +247,29 @@ export default {
         let month = nd.getMonth();
         month = month < 10 ? `0${month+1}` : `${month+1}`;
 
-        return (
-          nd.getFullYear() +
-          "-" +
-          month +
-          "-" +
-          nd.getDate() +
-          " " +
+        if(offset == 0) {
+          return (
           nd.getHours() +
           ":" +
           nd.getMinutes() +
           ":" +
           nd.getSeconds()
-        );
+          );
+        } else {
+            return (
+            nd.getFullYear() +
+            "-" +
+            month +
+            "-" +
+            nd.getDate() +
+            " " +
+            nd.getHours() +
+            ":" +
+            nd.getMinutes() +
+            ":" +
+            nd.getSeconds()
+          );
+        }
       },
     },
   },
@@ -286,17 +301,14 @@ export default {
         this.$store.dispatch("changeZone", "-3");
         this.ticketData.startTime = this.calcTime("-3");
         this.ticketData.reportTime = this.calcTime("-3");
-        this.ticketData.endTime = this.calcTime("-3");
       } else if (country === "portugal") {
         this.$store.dispatch("changeZone", "0");
         this.ticketData.startTime = this.calcTime("0");
         this.ticketData.reportTime = this.calcTime("0");
-        this.ticketData.endTime = this.calcTime("0");
-      } else {
+        } else {
         this.$store.dispatch("changeZone", "-5");
         this.ticketData.startTime = this.calcTime("-5");
         this.ticketData.reportTime = this.calcTime("-5");
-        this.ticketData.endTime = this.calcTime("-5");
       }
     },
     copy() {
@@ -305,7 +317,7 @@ export default {
       let inputs = this.ticketData
 
       titles.forEach( (title, index) => {
-        result.value += `${title}: ${Object.values(inputs)[index]}\n`
+        result.value += `${title}: ${Object.values(inputs)[index+1]}\n`
       })
       result.select();
       document.execCommand("Copy");
@@ -375,5 +387,75 @@ export default {
 </script>
 
 <style>
+.content-input input,
+.content-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+ 
+.content-input input{
+	visibility: hidden;
+	position: absolute;
+	right: 0;
+}
 
+.content-input{
+	position: relative;
+	margin-bottom: 30px;
+	padding:5px 0 5px 60px; /* Damos un padding de 60px para posicionar el elemento <i> en este espacio*/
+	display: block;
+  cursor: pointer;
+}
+ 
+/* Estas reglas se aplicarán a todos las elementos i después de cualquier input*/
+.content-input input + i{
+ background: var(--white);
+ border:2px solid var(--grey);
+ position: absolute; 
+ left: 0;
+ top: 0;
+}
+ 
+/* Estas reglas se aplicarán a todos los i despues de un input de tipo radio*/
+.content-input input[type=radio] + i{
+ height: 30px;
+ width: 30px;
+ border-radius: 100%;
+ left: 15px;
+}
+
+.content-input input[type=radio] + i:before{
+	content: '';
+	display: block;
+	height: 18px;
+	width: 18px;
+	background: var(--danger);
+	border-radius: 100%;
+	position: absolute;
+	z-index: 1;
+	top: 4px;
+	left: 4px;
+	background: var(--purple);
+	transition: all 0.25s ease; /* Todas las propiedades | tiempo | tipo movimiento */
+	transform: scale(0) /* Lo reducimos a 0*/ ;
+	opacity: 0; /* Lo ocultamos*/
+}
+
+.content-input input[type=radio]:checked + i:before{
+	transform: scale(1);
+	opacity: 1;
+}
+	
+.content-input:hover input[type=radio]:not(:checked) + i{
+	background: var(--purple_light);
+}
+
+.img__timezone {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 35px;
+  top: 0;
+}
 </style>

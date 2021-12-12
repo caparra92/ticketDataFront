@@ -13,6 +13,7 @@ export default {
 :root {
   --purple: #7f32a8;
   --purple_hover: #572374;
+  --purple_light: #c1a9ce;
   --blue: #311c91;
   --blue_hover: #231469;
   --indigo: #007bff;

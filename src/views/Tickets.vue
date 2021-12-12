@@ -307,7 +307,7 @@ export default {
 }
 
 .table-md {
-  width: 80% !important;
+  width: calc(100% - 280px) !important;
   margin: 0 25px !important;
 }
 
@@ -422,5 +422,17 @@ td {
   padding-left: 1.5rem;
   border-radius: 3px;
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .table-md {
+    width: calc(100% - 80px) !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1300px) {
+  .table-md {
+    width: calc(100% - 180px) !important;
+  }
 }
 </style>

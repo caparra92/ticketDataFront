@@ -11,17 +11,17 @@
       <ul class="menu__container-list">
         <li class="menu__container-element">
           <router-link to="/dashboard/new"
-            ><i class="fa fa-plus"></i> New</router-link
+            ><i class="fa fa-plus"></i><span class="menu__container-element-title">New</span></router-link
           >
         </li>
         <li class="menu__container-element">
           <router-link to="/dashboard/tickets"
-            ><i class="fa fa-ticket"></i> My Tickets</router-link
+            ><i class="fa fa-ticket"></i> <span class="menu__container-element-title">My tickets</span></router-link
           >
         </li>
         <li class="menu__container-element">
-          <router-link to="/new"
-            ><i class="fa fa-bar-chart"></i> Graphics</router-link
+          <router-link to="/graphics"
+            ><i class="fa fa-bar-chart"></i> <span class="menu__container-element-title">Graphics</span></router-link
           >
         </li>
       </ul>
@@ -54,6 +54,7 @@ export default {
   background-color: var(--purple);
   border-radius: var(--border_radius);
   z-index: 10;
+  transition: linear all .5s;
 }
 
 .menu__container {
@@ -94,5 +95,25 @@ export default {
 
 .menu__container-element i {
   margin-right: 5px;
+}
+
+@media (max-width: 900px) {
+  .menu {
+    width: 50px;
+  }
+
+  .menu__container-element-title {
+    display: none;
+  }
+
+  .header-logo__content {
+    visibility: hidden;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1300px) {
+  .menu {
+    width: 150px;
+  }
 }
 </style>

@@ -45,19 +45,29 @@ export default {
         let month = nd.getMonth();
         month = month < 10 ? `0${month + 1}` : `${month}`;
 
-        return (
-          nd.getFullYear() +
-          "-" +
-          month +
-          "-" +
-          nd.getDate() +
-          " " +
+        if(offset == "0") {
+          return (
           nd.getHours() +
           ":" +
           nd.getMinutes() +
           ":" +
           nd.getSeconds()
-        );
+          );
+        } else {
+            return (
+            nd.getFullYear() +
+            "-" +
+            month +
+            "-" +
+            nd.getDate() +
+            " " +
+            nd.getHours() +
+            ":" +
+            nd.getMinutes() +
+            ":" +
+            nd.getSeconds()
+          );
+        }
       },
     },
     
@@ -75,7 +85,7 @@ export default {
         this.time = this.calcTime("-3");
       } else if (country === "portugal") {
         this.$store.dispatch("changeZone", "0");
-        this.time = this.calcTime("+1");
+        this.time = this.calcTime("0");
       } else {
         this.$store.dispatch("changeZone", "-5");
         this.time = this.calcTime("-5");
