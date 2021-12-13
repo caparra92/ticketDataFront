@@ -345,7 +345,7 @@ export default {
       });
     },
     create() {
-      console.log(this.$refs.formCreate.values);
+      console.log(this.getLog());
       this.$store
         .dispatch("create", {
           reportedBy: this.ticketData.reportedBy,
@@ -361,7 +361,7 @@ export default {
           reportTime: this.ticketData.reportTime,
           endTime: this.ticketData.endTime,
           impactedStaffed: this.ticketData.impactedStaffed,
-          logs: this.logs,
+          logs: this.ticketData.logs,
         })
         .then((response) => {
           // this.$router.push({ name: "dashboard" });
