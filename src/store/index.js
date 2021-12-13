@@ -9,8 +9,8 @@ export default new Vuex.Store({
     tickets: [],
     token: localStorage.getItem('access_token') || null,
     zone: '-3',
-    // BASE_URL: 'https://ticket-data.herokuapp.com/api'
-    BASE_URL: 'http://localhost:3000/api'
+    BASE_URL: 'https://ticket-data.herokuapp.com/api'
+    // BASE_URL: 'http://localhost:3000/api'
   },
   mutations: {
     setZone(state, payload) {

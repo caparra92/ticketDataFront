@@ -46,6 +46,7 @@ const routes = [
       },
       { 
         path: '/dashboard/tickets', 
+        name: 'tickets',
         component: Tickets,
         beforeEnter: loggedIn,
         meta: {

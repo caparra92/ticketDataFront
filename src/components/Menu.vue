@@ -1,5 +1,5 @@
 <template>
-  <section class="menu">
+  <section class="menu" ref="toggle">
     <div class="head-logo">
       <h2>
         <router-link to="/dashboard" class="header-logo__content"
@@ -8,7 +8,7 @@
       </h2>
     </div>
     <div class="menu__container">
-      <ul class="menu__container-list">
+      <ul class="menu__container-list" ref="menu_list">
         <li class="menu__container-element">
           <router-link to="/dashboard/new"
             ><i class="fa fa-plus"></i><span class="menu__container-element-title">New</span></router-link
@@ -26,12 +26,26 @@
         </li>
       </ul>
     </div>
+    <div class="menu__toggle">
+      <div class="menu__toggle-icon" @click="collapse">
+        <i class="fa fa-angle-double-left"><span></span></i>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 export default {
   name: "Menu",
+  methods: {
+    collapse() {
+      // this.$emit('collapse')
+      this.$refs.toggle.className = "menu__xs";
+      for (const element of this.$refs.menu_list.children) {
+       console.log(element)
+      }
+    }
+  }
 };
 </script>
 
@@ -97,6 +111,50 @@ export default {
   margin-right: 5px;
 }
 
+.menu__toggle {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding: 1em;
+  margin: .2em .4em;
+}
+
+.menu__toggle-icon {
+  position: absolute;
+  padding: 2px;
+  width: 50px;
+  height: 40px;
+  border-radius: 3px;
+  right: 1em;
+  bottom: 1em;
+  border: 1px solid var(--white);
+  background: var(--pink);
+  text-align: center;
+  cursor: pointer;
+  transition: all .05s;
+}
+
+.menu__toggle-icon:hover {
+  background: var(--pink_hover);
+  transform: scale(1.03);
+}
+
+.menu__toggle-icon i {
+  font-size: var(--font_lg);
+  color: var(--white);
+  line-height: 1.8;
+}
+
+.menu__xs {
+  width: 50px;
+  position: fixed;
+  height: 100%;
+  background-color: var(--purple);
+  border-radius: var(--border_radius);
+  z-index: 10;
+  transition: linear all .5s;
+}
+
 @media (max-width: 900px) {
   .menu {
     width: 50px;
@@ -107,6 +165,10 @@ export default {
   }
 
   .header-logo__content {
+    visibility: hidden;
+  }
+
+  .menu__toggle-icon {
     visibility: hidden;
   }
 }

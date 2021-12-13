@@ -284,7 +284,6 @@ export default {
   methods: {
      edit() {
       let id = this.$route.params.id;
-      console.log(id);
       this.$store
         .dispatch("getTicket", {id})
         .then((ticket) => {
@@ -330,8 +329,6 @@ export default {
           });
     },
     update(id) {
-      console.log(id)
-      console.log(`este es es body ${this.ticketData.client}`)
       this.$store
         .dispatch("update", {
           id,
@@ -351,8 +348,7 @@ export default {
           logs: this.ticketData.logs
         })
         .then((response) => {
-          // this.$router.push({ name: "dashboard" });
-          console.log(response)
+          this.$router.push({ name: "tickets" });
           this.$swal.fire({
             position: 'top-end',
             icon: 'success',
