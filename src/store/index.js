@@ -9,8 +9,9 @@ export default new Vuex.Store({
     tickets: [],
     token: localStorage.getItem('access_token') || null,
     zone: '-3',
-    // BASE_URL: 'https://ticket-data.herokuapp.com/api'
-    BASE_URL: 'http://localhost:3000/api'
+    BASE_URL: 'https://ticket-data.herokuapp.com/api',
+    // BASE_URL: 'http://localhost:3000/api',
+    collapse: false
   },
   mutations: {
     setZone(state, payload) {
@@ -41,11 +42,17 @@ export default new Vuex.Store({
     },
     getZone(state) {
       return state.zone
+    },
+    getCollapse(state) {
+      return state.collapse
     }
   },
   actions: {
     changeZone(context, value) {
-      context.commit('setZone', value)
+      context.commit('setZone', value);
+    },
+    collapseMenu(context, value) {
+      context.commit('collapse', value);
     },
     login(context, value) {
       return new Promise((resolve, reject) => {
