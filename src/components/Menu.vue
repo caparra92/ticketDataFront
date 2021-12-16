@@ -1,7 +1,7 @@
 <template>
   <section class="menu" ref="toggle">
     <div class="head-logo">
-      <h2>
+      <h2 ref="logo">
         <router-link to="/dashboard" class="header-logo__content"
           >Logo</router-link
         >
@@ -11,17 +11,24 @@
       <ul class="menu__container-list" ref="menu_list">
         <li class="menu__container-element">
           <router-link to="/dashboard/new"
-            ><i class="fa fa-plus"></i><span class="menu__container-element-title">New</span></router-link
+            ><i class="fa fa-plus"></i
+            ><span class="menu__container-element-title">New</span></router-link
           >
         </li>
         <li class="menu__container-element">
           <router-link to="/dashboard/tickets"
-            ><i class="fa fa-ticket"></i> <span class="menu__container-element-title">My tickets</span></router-link
+            ><i class="fa fa-ticket"></i>
+            <span class="menu__container-element-title"
+              >My tickets</span
+            ></router-link
           >
         </li>
         <li class="menu__container-element">
           <router-link to="/graphics"
-            ><i class="fa fa-bar-chart"></i> <span class="menu__container-element-title">Graphics</span></router-link
+            ><i class="fa fa-bar-chart"></i>
+            <span class="menu__container-element-title"
+              >Graphics</span
+            ></router-link
           >
         </li>
       </ul>
@@ -37,15 +44,39 @@
 <script>
 export default {
   name: "Menu",
+  data() {
+    return {
+      listMenu: ["New, My tickets", "Graphics"],
+      collapsed: false
+    };
+  },
   methods: {
     collapse() {
-      // this.$emit('collapse')
+      this.collapsed = true;
       this.$refs.toggle.className = "menu__xs";
-      for (const element of this.$refs.menu_list.children) {
-       console.log(element)
+      let anchor = this.$refs.logo.children[0];
+      anchor.style.visibility = "hidden";
+      for (const li of this.$refs.menu_list.children) {
+        for (const el of li.children) {
+          let span = el.children[1];
+          span.textContent = "";
+        }
       }
-    }
-  }
+      this.$store.dispatch("collapseMenu", true);
+    },
+    expand() {
+      this.$refs.toggle.removeClass = "menu_xs"
+      // this.$refs.toggle.className = "menu";
+      for (const li of this.$refs.menu_list.children) {
+        for (const el of li.children) {
+          let span = el.children[1];
+          this.listMenu.forEach((title) => {
+            span.textContent += title;
+          });
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -68,7 +99,7 @@ export default {
   background-color: var(--purple);
   border-radius: var(--border_radius);
   z-index: 10;
-  transition: linear all .5s;
+  transition: linear all 0.5s;
 }
 
 .menu__container {
@@ -116,7 +147,7 @@ export default {
   position: absolute;
   bottom: 0;
   padding: 1em;
-  margin: .2em .4em;
+  margin: 0.2em 0.4em;
 }
 
 .menu__toggle-icon {
@@ -131,7 +162,7 @@ export default {
   background: var(--pink);
   text-align: center;
   cursor: pointer;
-  transition: all .05s;
+  transition: all 0.05s;
 }
 
 .menu__toggle-icon:hover {
@@ -152,7 +183,7 @@ export default {
   background-color: var(--purple);
   border-radius: var(--border_radius);
   z-index: 10;
-  transition: linear all .5s;
+  transition: linear all 0.5s;
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h2 class="header__content">Admin panel</h2>
+    <h2 class="header__content" ref="header">Admin panel {{expand}}</h2>
     <Badge></Badge>
   </header>
 </template>
@@ -13,6 +13,14 @@ export default {
   components: {
     Badge,
   },
+  computed: {
+    expand() {
+      return this.$store.getters.getCollapse;
+    }
+  },
+  methods: {
+    
+  }
 };
 </script>
 

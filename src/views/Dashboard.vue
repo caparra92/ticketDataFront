@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard" ref="dashboard">
     <Head></Head>
-    <Menu @collapse = collapseMenu></Menu>
+    <Menu></Menu>
     <transition name="slide" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -18,18 +18,13 @@ export default {
         Menu
     },
     methods: {
-      collapseMenu() {
-        this.$refs.dashboard.className = "main";
-      }
+
     }
 }
 </script>
 
 <style>
 
-.main {
-  background: var(--warning);
-}
 .slide-enter-active,
 .slide-leave-active {
   transition: opacity 0.5s, transform 0.5s;
